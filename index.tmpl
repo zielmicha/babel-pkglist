@@ -1,58 +1,36 @@
 #! stdtmpl
 #proc genIndex(packages: seq[Package]): string =
 #  result = ""
-<!doctype html>
-<head>
-<link href="bootstrap.min.css" rel=stylesheet>
 <style>
-body {
-  margin-left: 4px;
-  margin-top: 4px;
-}
-.name {
-  font-size: 1.2em;
-  float: left;
-}
-.stars {
-  float: right;
-  font-size: 1.5em;
-}
-.source:before {
-  content: "Source code: ";
-}
-.web:before {
-
-}
-.stars {
-  background-image: url(star.jpg);
-  background-size: 1em 1em;
-  background-repeat: no-repeat;
-  width: 3em;
-  height: 1.5em;
-  text-align: center;
+.babel-pkgs .star {
+  font-weight: bolder;
+  margin-left: 2px;
+  margin-right: 2px;
   display: inline-block;
 }
-.license:before {
-  content: "License: ";
-}
-entry {
-  max-width: 500px;
-  display: block;
-  margin-bottom: 1em;
-  padding: 0.5em;
-  border: 1px solid gray;
+.babel-pkgs .star img {
+  height: 1em;
+  width: 1em;
+  position: absolute;
+  z-index: -100;
+  margin-left: -2px;
 }
 </style>
-</head>
-<body>
+<div class=babel-pkgs>
+<ul>
 #for p in packages:
-<entry>
-   <div class=name>${xmlEncode(p.name)}</div>
-   <div class=stars>${p.stars}</div>
-   <br clear=both>
-   <!--<div class=source>${xmlEncode(p.url)}</div>-->
-   <div class=web><a href="${xmlEncode(p.web)}">${xmlEncode(p.web)}</a></div>
-   <div class=license>${xmlEncode(p.license)}</div>
-   <div class=description>${xmlEncode(p.description)}</div>
-</entry>
+<li>
+  <a href="${xmlEncode(p.web)}">${xmlEncode(p.name)}</a>
+
+  # if p.stars > 0:
+  <span class=star>
+    <img src="//atomshare.net/nimrod/star.jpg"
+         alt="Github stargazers">
+    ${p.stars}</span>
+  # end if
+
+  # let description = if p.description.endsWith("."): p.description else: p.description & "."
+  ${xmlEncode(description)} License: ${xmlEncode(p.license)}
+</li>
 #end for
+</div>
