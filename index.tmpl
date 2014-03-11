@@ -1,0 +1,58 @@
+#! stdtmpl
+#proc genIndex(packages: seq[Package]): string =
+#  result = ""
+<!doctype html>
+<head>
+<link href="bootstrap.min.css" rel=stylesheet>
+<style>
+body {
+  margin-left: 4px;
+  margin-top: 4px;
+}
+.name {
+  font-size: 1.2em;
+  float: left;
+}
+.stars {
+  float: right;
+  font-size: 1.5em;
+}
+.source:before {
+  content: "Source code: ";
+}
+.web:before {
+
+}
+.stars {
+  background-image: url(star.jpg);
+  background-size: 1em 1em;
+  background-repeat: no-repeat;
+  width: 3em;
+  height: 1.5em;
+  text-align: center;
+  display: inline-block;
+}
+.license:before {
+  content: "License: ";
+}
+entry {
+  max-width: 500px;
+  display: block;
+  margin-bottom: 1em;
+  padding: 0.5em;
+  border: 1px solid gray;
+}
+</style>
+</head>
+<body>
+#for p in packages:
+<entry>
+   <div class=name>${xmlEncode(p.name)}</div>
+   <div class=stars>${p.stars}</div>
+   <br clear=both>
+   <!--<div class=source>${xmlEncode(p.url)}</div>-->
+   <div class=web><a href="${xmlEncode(p.web)}">${xmlEncode(p.web)}</a></div>
+   <div class=license>${xmlEncode(p.license)}</div>
+   <div class=description>${xmlEncode(p.description)}</div>
+</entry>
+#end for
